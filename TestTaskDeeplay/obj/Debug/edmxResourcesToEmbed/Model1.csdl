@@ -85,7 +85,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="StaffEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="StaffEntities" annotation:LazyLoadingEnabled="false">
     <EntitySet Name="Employees" EntityType="Self.Employees" />
     <EntitySet Name="Position" EntityType="Self.Position" />
     <EntitySet Name="Subdivision" EntityType="Self.Subdivision" />

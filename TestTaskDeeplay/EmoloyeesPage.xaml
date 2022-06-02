@@ -11,10 +11,21 @@
 
     <Grid Background="white">
         <Grid.RowDefinitions>
-            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="DGrid" AutoGenerateColumns="False" IsReadOnly="True" RowBackground="DarkGray" AlternatingRowBackground="White" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox ItemsSource="{Binding Position}" Name="cmbSortPosition" Grid.Column="0" Width="200" Height="30" DisplayMemberPath="Name" SelectionChanged="cmbSortPosition_SelectionChanged"/>
+            <Button Grid.Column="1" Width="200" Height="20" Content="Сбросить фильтры" Click="ResetSort"/>
+            <ComboBox ItemsSource="{Binding Subdivision}" Name="cmbSortSubdibision" Grid.Column="2"  Width="200" Height="30" DisplayMemberPath="Text" SelectionChanged="cmbSortSubdibision_SelectionChanged" />
+        </Grid>
+        <DataGrid x:Name="DGrid" AutoGenerateColumns="False" IsReadOnly="True" RowBackground="DarkGray" AlternatingRowBackground="White" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding FulName}" Width="*"/>
                 <DataGridTextColumn Header="Дата Рождения" Binding="{Binding DateOfBirth}" Width="*"/>
@@ -30,7 +41,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid>
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

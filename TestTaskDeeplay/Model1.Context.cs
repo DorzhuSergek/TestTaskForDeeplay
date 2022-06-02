@@ -20,6 +20,7 @@ namespace TestTaskDeeplay
         public StaffEntities()
             : base("name=StaffEntities")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,14 @@ namespace TestTaskDeeplay
     /// </summary>
     public partial class EmoloyeesPage : Page
     {
+        public ObservableCollection<Employees> Employees { get; set; }
+
         public EmoloyeesPage()
         {
             InitializeComponent();
             DGrid.ItemsSource = StaffEntities.GetContext().Employees.ToList();
+            cmbSortPosition.ItemsSource = StaffEntities.GetContext().Position.ToList();
+            cmbSortSubdibision.ItemsSource = StaffEntities.GetContext().Subdivision.ToList();
         }
 
         private void addEmployess(object sender, RoutedEventArgs e)
@@ -63,7 +68,46 @@ namespace TestTaskDeeplay
 
         private void BtnEdit_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Manager._frame.Navigate(new AddEmployees((sender as Image).DataContext as Employees));
+            _ = Manager._frame.Navigate(new AddEmployees((sender as Image).DataContext as Employees));
+        }
+
+    
+
+        private void ResetSort(object sender, RoutedEventArgs e)
+        {
+            DGrid.ItemsSource = StaffEntities.GetContext().Employees.ToList();
+        }
+
+        private void cmbSortPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateInfo();
+            //Position position = cmbSortPosition.SelectedItem as Position;
+            //DGrid.ItemsSource = StaffEntities.GetContext().Employees.Where(x => x.Position.Name.Equals(position.Name)).ToList();
+        }
+
+        private void cmbSortSubdibision_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateInfo();
+            //Subdivision subdivision = cmbSortSubdibision.SelectedItem as Subdivision;
+            //DGrid.ItemsSource = StaffEntities.GetContext().Employees.Where(x => x.Position.Subdivision.Text.Equals(subdivision.Text)).ToList();
+        }
+
+        private void UpdateInfo()
+        {
+            IEnumerable<Employees> currentEmployees = StaffEntities.GetContext().Employees.ToList();
+
+            Subdivision subdivision = cmbSortSubdibision.SelectedItem as Subdivision;
+            Position position = cmbSortPosition.SelectedItem as Position;
+            if (cmbSortPosition.SelectedIndex > -1)
+            {
+                currentEmployees = currentEmployees.Where(x => x.Position.Name.Equals(position.Name)).ToList();
+
+            }
+            if (cmbSortSubdibision.SelectedIndex > -1)
+            {
+                currentEmployees = currentEmployees.Where(x => x.Position.Subdivision.Text.Equals(subdivision.Text)).ToList();
+            }
+            DGrid.ItemsSource = currentEmployees;
         }
     }
 }
